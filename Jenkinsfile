@@ -8,10 +8,14 @@ pipeline {
             }
         }
 
-        stage ('executing the file') {
-            steps {
-                sh './build.sh'
-            }
+        stage('Build/Run/Push') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'docker-hub-creds',
+            usernameVariable: 'DOCKER_USERNAME',
+            passwordVariable: 'DOCKER_PASS'
+        )]) {
+            sh './build.sh'
         }
     }
 }
